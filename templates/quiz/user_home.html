@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Let's Quiz | Welcome {% endblock title %}
+{% block content %}
+<div class="container my-4">
+    <div class="jumbotron">
+
+	      <h2 class="text-center text-success">Bravo! You've successfully logged in!</h2>
+          <h2 class="text-center text-info">Attention all QuizWizzers!</h2>
+	      <h3 class="text-center text-info"> Before you start, have a quick look at our rules !</h3>
+
+        <div class="row">
+
+            <div class="card border-info mx-4 my-4">
+                <div class="card-body">
+                    <h4 class="card-title">Rules : </h4>
+                    <p class="card-text">
+                        <ul style="list-style:decimal;">
+                            <li>All questions are multiple choice question.</li>
+                            <li><span class="text-danger">Only one choice is correct.</span></li>
+                            <li>Every question carries equal marks i.e. <span class="text-danger">4 marks for each question.</span>
+                            </li>
+                            <li>Each question will be displayed only once per user.</li>
+                            <li>Try to answer within the given time. If not, then the answer will be considered as wrong.</li>
+                            <li>If you refresh the page or go back to the previous page, there will be a new question for you and the question you were in will be counted as attempted.</li>
+                            <li>Questions are displayed randomly for every user.</li>
+                            <li>You will be immediately told whether your answer is correct or wrong once you submit the answer.</li>
+                        </ul>
+                    </p>
+                    <a href="{% url 'quiz:play' %}" class="btn btn-success my-2 ml-4">Let's play</a>
+                </div>
+                <div class="card-footer text-danger">Rules last modified 29-April-2024</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

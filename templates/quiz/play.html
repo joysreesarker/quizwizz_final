@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if question is None %}
+
+<div class="container">
+  <div class="jumbotron my-4">
+    <h1>You have already answered all of our questions</h1>
+    <a href="{% url 'quiz:leaderboard' %}" class="btn btn-lg btn-primary">
+      <i class="fa fa-trophy" aria-hidden="true"></i> See the Leaderboard here <i class="fa fa-trophy" aria-hidden="true"></i>
+    </a>
+  </div>
+</div>
+
+{% else %}
+
+<div class="container">
+  <div class="jumbotron my-4">
+    <div class="row">
+      <div class="col-md-8">
+        <h3 class="text-primary">{{ question.html|safe }}</h3>
+        <form class="form" action="{% url 'quiz:play' %}" method="post"> {# Change 'quiz:check_answer' to 'quiz:play' here #}
+          {% csrf_token %}
+          <input type="hidden" name="question_pk" value="{{ question.pk }}">
+          {% for choice in question.choices.all %}
+            <div class="form-check mx-4">
+              <input class="form-check-input" type="radio" name="choice_pk" id="choice-{{ forloop.counter }}" value="{{ choice.pk }}">
+              <label class="form-check-label" for="choice-{{ forloop.counter }}">
+                {{ choice.html|safe }}
+              </label>
+            </div>
+          {% endfor %}
+          <input class="btn btn-danger btn-lg mt-4" type="submit" value="Submit">
+        </form>
+      </div>
+      <div class="col-md-4">
+        <p>Time Left: <span id="timer">60</span> seconds</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var timeLimit = 60; // Set the initial time limit in seconds
+  var hasSubmitted = false; // Flag to track if the user has already submitted an answer
+
+  // Countdown timer function
+  function countdown() {
+    if (timeLimit > 0) {
+      document.getElementById("timer").textContent = timeLimit;
+      timeLimit--;
+      setTimeout(countdown, 1000); // Update every second
+    } else {
+      if (!hasSubmitted) {
+        // Automatically submit the first option when time's up
+        var firstChoiceInput = document.querySelector('input[type="radio"]:first-child');
+        if (firstChoiceInput) {
+          firstChoiceInput.checked = true;
+          document.querySelector('form').submit();
+          hasSubmitted = true; // Set the flag to prevent multiple submissions
+        }
+      }
+    }
+  }
+
+  // Start the countdown when the page loads
+  countdown();
+</script>
+{% endif %}
+
+{% endblock content %}

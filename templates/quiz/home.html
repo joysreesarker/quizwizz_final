@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}  QuizWizz | Home {% endblock title %}
+{% block content %}
+
+    <section id="section-jumbotron" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center">
+      <div class="container text-center">
+        <h1 class="display-1 text-primary"> QuizWizz</h1>
+        <p class="display-4 d-none d-sm-block">Welcome to QuizWizz, where knowledge meets excitement!</p>
+        <p class="lead">Join the fun, test your wits, and become a QuizWizz champion !</p>
+
+        {% if not request.user.is_active %}
+
+        <p class="lead">Sign up now and embark on your journey to becoming a true champion with QuizWizz!"</p>
+        <p><strong>Let the games begin, and let your intellect shine bright with QuizWizz !</strong></p>
+        <a href="{% url 'quiz:register' %}" class="btn btn-lg btn-warning mt-1"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+
+        {% else %}
+        <a href="{% url 'quiz:play' %}" class="btn btn-lg btn-info mt-1">Let's Play</a>
+        <a href="{% url 'quiz:leaderboard' %}" class="btn btn-lg btn-info mt-1">Leaderboard</a>
+        {% endif %}
+      </div>
+    </section>
+
+{% endblock content %}
